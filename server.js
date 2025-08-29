@@ -1,15 +1,24 @@
 import express from "express";
 import fetch from "node-fetch";
+import cors from "cors";
 
 const app = express();
 
+// ✅ CORS Enable
+app.use(cors({
+  origin: "*",           // agar chaho to apna frontend URL daal do
+  methods: ["GET"]
+}));
+
+// ✅ Root route
 app.get("/", (req, res) => {
   res.send("Hashtag/Keyword Suggest API is live 🚀");
 });
 
+// ✅ Suggestion route
 app.get("/suggest", async (req, res) => {
-  const q = req.query.q || "seo";
-  const yt = req.query.yt;
+  const q = req.query.q || "seo";   // default "seo"
+  const yt = req.query.yt;          // agar yt=1 bheja to YouTube suggest aayega
 
   try {
     let endpoint;
@@ -28,6 +37,7 @@ app.get("/suggest", async (req, res) => {
   }
 });
 
+// ✅ Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
